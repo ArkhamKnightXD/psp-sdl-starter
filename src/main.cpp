@@ -47,9 +47,9 @@ bool shouldRenderSprite = false;
 
 bool running = true;
 
-SDL_Rect rectangle = {SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 16, 16};
+SDL_Rect rectangle = {SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 24, 24};
 
-const int SPEED = 600; 
+const int SPEED = 200; 
 const int FRAME_RATE = 60; 
 
 // Exit the game and clean up
@@ -174,7 +174,7 @@ int main()
     } 
     
     else {
-        
+
         controller = SDL_GameControllerOpen(0);
         if (controller == NULL) {
             pspDebugScreenPrintf("unable to open game controller");
