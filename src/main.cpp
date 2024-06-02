@@ -7,28 +7,28 @@
 PSP_MODULE_INFO("SDL-Starter", 0, 1, 0);
 PSP_MAIN_THREAD_ATTR(THREAD_ATTR_USER | THREAD_ATTR_VFPU);
  
-int exit_callback(int arg1, int arg2, void* common)
-{
+int exitCallback(int arg1, int arg2, void* common) {
+
     sceKernelExitGame();
     return 0;
 }
 
-int CallbackThread(SceSize args, void* argp)
-{
-    int cbid = sceKernelCreateCallback("Exit Callback", exit_callback, NULL);
+int callbackThread(SceSize args, void* argp) {
+
+    int cbid = sceKernelCreateCallback("Exit Callback", exitCallback, NULL);
     sceKernelRegisterExitCallback(cbid);
     sceKernelSleepThreadCB();
 
     return 0;
 }
 
-int SetupCallbacks(void)
-{
-    int thid = sceKernelCreateThread("update_thread", CallbackThread, 0x11, 0xFA0, 0, 0);
-    if (thid >= 0)
-    {
+int setupCallbacks(void) {
+
+    int thid = sceKernelCreateThread("update_thread", callbackThread, 0x11, 0xFA0, 0, 0);
+    if (thid >= 0) {
         sceKernelStartThread(thid, 0, 0);
     }
+
     return thid;
 }
 
@@ -44,8 +44,6 @@ SDL_GameController* controller = NULL;
 SDL_Texture* sprite;
 
 bool shouldRenderSprite = false;
-
-bool running = true;
 
 SDL_Rect rectangle = {SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 24, 24};
 
@@ -85,25 +83,28 @@ void capFrameRate(Uint32 frameStartTime) {
     }
 }
 
-SDL_Texture* LoadSprite(const char* file, SDL_Renderer* renderer)
-{
+SDL_Texture* LoadSprite(const char* file, SDL_Renderer* renderer) {
+
     SDL_Texture* texture = IMG_LoadTexture(renderer, file);
-    if (texture == nullptr)
-    {
+    if (texture == nullptr) {
+
         pspDebugScreenPrintf("Failed to create texture: %s\n", SDL_GetError());
         sceKernelDelayThread(3 * 1000 * 1000);
         return nullptr;
     }
+
     pspDebugScreenPrintf("Loaded image: %s\n", file);
     sceKernelDelayThread(3 * 1000 * 1000);
+
     return texture;
 }
 
-void RenderSprite(SDL_Texture* sprite, SDL_Renderer* renderer, int x, int y)
-{
+void RenderSprite(SDL_Texture* sprite, SDL_Renderer* renderer, int x, int y) {
+
     SDL_Rect dest;
     dest.x = x;
     dest.y = y;
+
     SDL_QueryTexture(sprite, NULL, NULL, &dest.w, &dest.h);
     SDL_RenderCopy(renderer, sprite, NULL, &dest);
 }
@@ -140,8 +141,7 @@ void render() {
 
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 
-    if(shouldRenderSprite) 
-    {
+    if(shouldRenderSprite) {
         RenderSprite(sprite, renderer, 100, 100);
     }
 
@@ -150,9 +150,9 @@ void render() {
     SDL_RenderPresent(renderer);  
 }
 
-int main()
-{
-    SetupCallbacks();
+int main() {
+
+    setupCallbacks();
     SDL_SetMainReady();
     pspDebugScreenInit();
 
@@ -188,8 +188,8 @@ int main()
     Uint32 currentFrameTime;
     float deltaTime;
 
-    while (running)
-    {
+    while (true) {
+
         currentFrameTime = SDL_GetTicks();
         deltaTime = (currentFrameTime - previousFrameTime) / 1000.0f;
         previousFrameTime = currentFrameTime;
