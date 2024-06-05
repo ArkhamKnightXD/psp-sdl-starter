@@ -37,10 +37,10 @@ enum {
   SCREEN_HEIGHT = 272
 };
 
-SDL_Window *window = NULL;
-SDL_Renderer *renderer = NULL;
-SDL_GameController *controller = NULL;
-SDL_Texture *sprite;
+SDL_Window* window = NULL;
+SDL_Renderer* renderer = NULL;
+SDL_GameController* controller = NULL;
+SDL_Texture* sprite;
 SDL_Rect spriteBounds = {SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 64, 64};
 
 bool shouldRenderSprite = true;
