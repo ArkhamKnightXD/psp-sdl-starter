@@ -72,16 +72,6 @@ void handleEvents() {
 SDL_Texture* loadSprite(const char* file, SDL_Renderer* renderer) {
 
     SDL_Texture* texture = IMG_LoadTexture(renderer, file);
-    // if (texture == nullptr) {
-
-    //     pspDebugScreenPrintf("Failed to create texture: %s\n", SDL_GetError());
-    //     sceKernelDelayThread(2 * 1000 * 1000);
-    //     return nullptr;
-    // }
-
-    // pspDebugScreenPrintf("Loaded image: %s\n", file);
-    // sceKernelDelayThread(2 * 1000 * 1000);
-
     return texture;
 }
 
